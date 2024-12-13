@@ -11,6 +11,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+// import JsonFormatter from "react-json-formatter";
+import JSONPretty from "react-json-pretty";
 
 const MainForm = () => {
   const [formData, setFormData] = useState({
@@ -33,6 +35,12 @@ const MainForm = () => {
     query: "",
   });
   const [error, setError] = useState(null);
+
+  // const jsonStyle = {
+  //   propertyStyle: { color: "red" },
+  //   stringStyle: { color: "green" },
+  //   numberStyle: { color: "darkorange" },
+  // };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,6 +82,19 @@ const MainForm = () => {
       .replace(/([A-Z])/g, " $1")
       .replace(/^./, (char) => char.toUpperCase());
   };
+
+  // Group compositions by reasonForEncounter
+  const groupedCompositions = responseData.compositions.reduce(
+    (acc, composition) => {
+      const reason = composition.reasonForEncounter || "Unknown Reason";
+      if (!acc[reason]) {
+        acc[reason] = [];
+      }
+      acc[reason].push(composition);
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -126,52 +147,86 @@ const MainForm = () => {
               <CardHeader>
                 <CardTitle>Mongo DB Query</CardTitle>
                 <CardContent>
-                  {<div className="mt-4 text-center">{responseData.query}</div>}
+                  {
+                    <div className="mt-4 text-left w-fit mx-auto">
+                      <JSONPretty
+                        id="json-pretty"
+                        data={responseData.query}
+                      ></JSONPretty>
+                      {/* <JsonFormatter
+                        json={responseData.query}
+                        tabWith={2}
+                        jsonStyle={jsonStyle}
+                      /> */}
+                      {/* {responseData.query} */}
+                    </div>
+                  }
                 </CardContent>
               </CardHeader>
             </Card>
           )}
 
           {responseData.compositions.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Search Results</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        {responseData.compositions.length > 0 &&
-                          Object.keys(responseData.compositions[0]).map(
-                            (key) => (
-                              <TableHead
-                                key={key}
-                                className="whitespace-nowrap"
-                              >
-                                {convertToTitleCase(key)}
-                              </TableHead>
-                            )
-                          )}
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {responseData.compositions.map((record, index) => (
-                        <TableRow key={index}>
-                          {Object.keys(record).map((key) => (
-                            <TableCell key={key}>
-                              {typeof record[key] == "object"
-                                ? JSON.stringify(record[key])
-                                : record[key] ?? "N/A"}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="space-y-6">
+              {Object.entries(groupedCompositions).map(
+                ([reason, compositions]) => (
+                  <Card key={reason}>
+                    <CardHeader>
+                      <CardTitle className="relative">
+                        Search Results - {reason}
+                        <span className="text-gray text-sm absolute right-0">
+                          {compositions.length} results
+                        </span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="overflow-x-auto">
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              {compositions.length > 0 &&
+                                Object.keys(compositions[0]).map((key) => (
+                                  <TableHead
+                                    key={key}
+                                    className="whitespace-nowrap"
+                                  >
+                                    {convertToTitleCase(key)}
+                                  </TableHead>
+                                ))}
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {compositions.map((record, index) => (
+                              <TableRow key={index}>
+                                {Object.keys(record).map((key) => (
+                                  <TableCell key={key}>
+                                    {typeof record[key] == "object" ? (
+                                      <div className="mt-4 text-left w-fit mx-auto">
+                                        <JSONPretty
+                                          id="json-pretty"
+                                          data={record[key]}
+                                        ></JSONPretty>
+                                      </div>
+                                    ) : (
+                                      // <JsonFormatter
+                                      //   json={record[key]}
+                                      //   tabWith={2}
+                                      //   jsonStyle={jsonStyle}
+                                      // />
+                                      record[key] ?? "N/A"
+                                    )}
+                                  </TableCell>
+                                ))}
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )
+              )}
+            </div>
           )}
         </CardContent>
       </Card>

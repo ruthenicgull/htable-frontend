@@ -1,0 +1,55 @@
+{
+  "name": "Outpatient high complexity procedures",
+  "children": [
+    {
+      "name": "HCPA",
+      "children": [
+        {
+          "name": "General Data",
+          "children": [
+            { "name": "issue date" },
+            { "name": "reason for encounter" },
+            { "name": "healthcare unit" },
+            { "name": "State" },
+            { "name": "patient age" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Patient Discharge",
+      "children": [
+        { "name": "date of discharge" },
+        { "name": "reason for discharge" }
+      ]
+    },
+    {
+      "name": "Bariatric surgery evaluation",
+      "children": [
+        { "name": "duration of follow-up (months)" },
+        { "name": "Baros score" },
+        { "name": "Baros table" }
+      ]
+    },
+    {
+      "name": "Problem/Diagnosis",
+      "children": [
+        { "name": "Problem" },
+        { "name": "Secondary Diagnosis" },
+        { "name": "Associated causes" }
+      ]
+    },
+    {
+      "name": "Procedure undertaken",
+      "children": [
+        { "name": "Procedure List", "children": [{ "name": "Procedure" }] }
+      ]
+    },
+    {
+      "name": "Body mass index",
+      "children": [
+        { "name": "history", "children": [{ "name": "Body Mass Index" }] }
+      ]
+    }
+  ]
+}

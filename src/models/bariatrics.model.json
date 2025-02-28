@@ -7,11 +7,11 @@
         {
           "name": "General Data",
           "children": [
-            { "name": "issue date" },
-            { "name": "reason for encounter" },
-            { "name": "healthcare unit" },
-            { "name": "State" },
-            { "name": "patient age" }
+            { "name": "issue date", "inputType": "date" },
+            { "name": "reason for encounter", "inputType": "text" },
+            { "name": "healthcare unit", "inputType": "text" },
+            { "name": "State", "inputType": "select" },
+            { "name": "patient age", "inputType": "range" }
           ]
         }
       ]
@@ -19,36 +19,42 @@
     {
       "name": "Patient Discharge",
       "children": [
-        { "name": "date of discharge" },
-        { "name": "reason for discharge" }
+        { "name": "date of discharge", "inputType": "date" },
+        { "name": "reason for discharge", "inputType": "text" }
       ]
     },
     {
       "name": "Bariatric surgery evaluation",
       "children": [
-        { "name": "duration of follow-up (months)" },
-        { "name": "Baros score" },
-        { "name": "Baros table" }
+        { "name": "duration of follow-up (months)", "inputType": "number" },
+        { "name": "Baros score", "inputType": "number" },
+        { "name": "Baros table", "inputType": "text" }
       ]
     },
     {
       "name": "Problem/Diagnosis",
       "children": [
-        { "name": "Problem" },
-        { "name": "Secondary Diagnosis" },
-        { "name": "Associated causes" }
+        { "name": "Problem", "inputType": "text" },
+        { "name": "Secondary Diagnosis", "inputType": "text" },
+        { "name": "Associated causes", "inputType": "text" }
       ]
     },
     {
       "name": "Procedure undertaken",
       "children": [
-        { "name": "Procedure List", "children": [{ "name": "Procedure" }] }
+        {
+          "name": "Procedure List",
+          "children": [{ "name": "Procedure", "inputType": "select" }]
+        }
       ]
     },
     {
       "name": "Body mass index",
       "children": [
-        { "name": "history", "children": [{ "name": "Body Mass Index" }] }
+        {
+          "name": "history",
+          "children": [{ "name": "Body Mass Index", "inputType": "range" }]
+        }
       ]
     }
   ]

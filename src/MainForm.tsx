@@ -34,6 +34,7 @@ const MainForm = () => {
     compositions: [],
     query: "",
   });
+
   const [error, setError] = useState(null);
 
   // const jsonStyle = {
@@ -153,12 +154,6 @@ const MainForm = () => {
                         id="json-pretty"
                         data={responseData.query}
                       ></JSONPretty>
-                      {/* <JsonFormatter
-                        json={responseData.query}
-                        tabWith={2}
-                        jsonStyle={jsonStyle}
-                      /> */}
-                      {/* {responseData.query} */}
                     </div>
                   }
                 </CardContent>
